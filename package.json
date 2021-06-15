@@ -1,6 +1,6 @@
 {
   "name": "@dfh-foundation/iso-3166",
-  "version": "4.0.0",
+  "version": "1.0.0",
   "description": "Fork of wooorm/iso-3166 (country and subdivision codes package)",
   "license": "MIT",
   "keywords": [
