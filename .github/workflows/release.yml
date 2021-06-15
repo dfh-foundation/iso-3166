@@ -1,8 +1,13 @@
 name: Release
 on:
+  pull_request:
   push:
     branches:
       - main
+      - next
+      - beta
+      - alpha
+
 jobs:
   release:
     name: Release
