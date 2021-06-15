@@ -90,7 +90,8 @@
     "generate": "node scripts/build.mjs && prettier --write 'src/generated/**/*.ts'",
     "prepare": "run-s build",
     "prepublishOnly": "run-s test build",
-    "test": "jest --coverage",
+    "test": "jest",
+    "test-coverage": "jest --coverage",
     "semantic-release": "semantic-release"
   },
   "husky": {
