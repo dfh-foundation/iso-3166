@@ -1,7 +1,7 @@
 {
-  "name": "iso-3166",
+  "name": "@dfh-foundation/iso-3166",
   "version": "4.0.0",
-  "description": "ISO 3166 (standard for country codes and codes for their subdivisions)",
+  "description": "Fork of wooorm/iso-3166 (country and subdivision codes package)",
   "license": "MIT",
   "keywords": [
     "iso-3166",
@@ -21,109 +21,87 @@
     "name",
     "information"
   ],
-  "repository": "wooorm/iso-3166",
-  "bugs": "https://github.com/wooorm/iso-3166/issues",
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/wooorm"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dfh-foundation/iso-3166.git"
   },
-  "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+  "bugs": "https://github.com/dfh-foundation/iso-3166/issues",
+  "author": "Johnny Walker <jwalker@designsforhealth.com>",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)"
   ],
   "sideEffects": false,
-  "type": "module",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/main/index.js",
+  "module": "dist/module/index.js",
+  "types": "dist/main/index.d.ts",
   "files": [
-    "1-a2-to-1-a3.d.ts",
-    "1-a2-to-1-a3.js",
-    "1-a2-to-1-n.d.ts",
-    "1-a2-to-1-n.js",
-    "1-a3-to-1-a2.d.ts",
-    "1-a3-to-1-a2.js",
-    "1-n-to-1-a2.d.ts",
-    "1-n-to-1-a2.js",
-    "1-reserved.d.ts",
-    "1-reserved.js",
-    "1.d.ts",
-    "1.js",
-    "2.d.ts",
-    "2.js",
-    "3.d.ts",
-    "3.js",
-    "index.d.ts",
-    "index.js"
+    "dist"
   ],
   "devDependencies": {
-    "@types/hast": "^2.0.0",
-    "@types/mdast": "^3.0.0",
-    "@types/node": "^14.0.0",
-    "@types/node-fetch": "^2.0.0",
-    "@types/tape": "^4.0.0",
-    "@types/unist": "^2.0.0",
-    "bail": "^2.0.0",
-    "c8": "^7.0.0",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "@tsconfig/node12": "^1.0.8",
+    "@types/hast": "^2.3.1",
+    "@types/jest": "^26.0.23",
+    "@types/mdast": "^3.0.3",
+    "@types/node": "^14.17.3",
+    "@types/node-fetch": "^2.5.10",
+    "@types/unist": "^2.0.3",
+    "@typescript-eslint/eslint-plugin": "^4.27.0",
+    "@typescript-eslint/parser": "^4.27.0",
     "concat-stream": "^2.0.0",
-    "hast-util-select": "^4.0.0",
-    "hast-util-to-string": "^1.0.0",
-    "hastscript": "^6.0.0",
-    "mdast-util-heading-range": "^2.0.0",
-    "node-fetch": "^2.0.0",
-    "p-map": "^4.0.0",
-    "prettier": "^2.0.0",
-    "rehype-format": "^3.0.0",
-    "rehype-parse": "^7.0.0",
+    "eslint": "^7.28.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^3.4.0",
+    "hast-util-select": "^5.0.0",
+    "hast-util-to-string": "^1.0.4",
+    "hastscript": "^7.0.1",
+    "husky": "^6.0.0",
+    "jest": "^27.0.4",
+    "jest-each": "^27.0.2",
+    "jest-extended": "^0.11.5",
+    "lint-staged": "^11.0.0",
+    "mdast-util-heading-range": "^3.0.0",
+    "node-fetch": "^2.6.1",
+    "npm-run-all": "^4.1.5",
+    "p-map": "^5.0.0",
+    "prettier": "^2.3.1",
+    "rehype-format": "^3.1.0",
+    "rehype-parse": "^7.0.1",
     "rehype-stringify": "^8.0.0",
-    "remark-cli": "^9.0.0",
-    "remark-preset-wooorm": "^8.0.0",
     "rimraf": "^3.0.0",
-    "tape": "^5.0.0",
-    "type-coverage": "^2.0.0",
-    "typescript": "^4.0.0",
-    "unified": "^9.0.0",
-    "unist-builder": "^2.0.0",
-    "xo": "^0.38.0"
+    "ts-jest": "^27.0.3",
+    "typescript": "^4.3.2",
+    "unified": "^9.2.1",
+    "unist-builder": "^3.0.0"
   },
   "scripts": {
-    "prepack": "npm run build && npm run format",
-    "build": "rimraf \"*.d.ts\" && tsc && type-coverage",
-    "generate": "node build",
-    "format": "remark . -qfo && prettier . -w --loglevel warn && xo --fix",
-    "test-api": "node test.js",
-    "test-coverage": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 --reporter lcov node test.js",
-    "test": "npm run build && npm run format && npm run test-coverage"
+    "prebuild": "rimraf lib",
+    "build": "tsc -b",
+    "format": "prettier --write '**/*.{js,json,md,mjs,ts}'",
+    "lint": "eslint 'scripts/**/*.{js,mjs,ts}' 'src/*.ts'",
+    "pregenerate": "rimraf src/generated/**/*.ts",
+    "generate": "node scripts/build.mjs && prettier --write 'src/generated/**/*.ts'",
+    "prepare": "run-s build",
+    "prepublishOnly": "run-s test build",
+    "test": "jest --coverage"
   },
-  "prettier": {
-    "tabWidth": 2,
-    "useTabs": false,
-    "singleQuote": true,
-    "bracketSpacing": false,
-    "semi": false,
-    "trailingComma": "none"
-  },
-  "xo": {
-    "prettier": true,
-    "rules": {
-      "complexity": "off",
-      "guard-for-in": "off",
-      "import/no-mutable-exports": "off",
-      "max-depth": "off",
-      "no-var": "off",
-      "prefer-arrow-callback": "off",
-      "unicorn/no-array-callback-reference": "off",
-      "unicorn/no-array-for-each": "off"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
     }
   },
-  "remarkConfig": {
-    "plugins": [
-      "preset-wooorm",
-      "./build-iso-3166-1-a2-table.js"
+  "lint-staged": {
+    "*.{json,md}": [
+      "prettier --write"
+    ],
+    "*.{js,mjs,ts}": [
+      "eslint --cache --fix",
+      "prettier --write"
     ]
   },
-  "typeCoverage": {
-    "atLeast": 100,
-    "detail": true,
-    "strict": true
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
