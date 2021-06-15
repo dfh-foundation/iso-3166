@@ -1,2 +1,4 @@
-coverage/
-*.md
+.idea
+dist
+package.json
+CHANGELOG.md
