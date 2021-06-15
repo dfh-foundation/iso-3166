@@ -22,6 +22,9 @@ const numericRegex = /^\d{3}$/
 const iso3166_2Regex = /^[A-Z]{2}-[A-Z\d]{1,3}$/
 const iso3166_2OrAlpha2Regex = /^([A-Z]{2}|[A-Z]{2}-[A-Z\d]{1,3})$/
 
+const arrayCount = <TValue>(array: Array<TValue>, predicate: (val: TValue) => Boolean): number =>
+  array.reduce((acc, val) => (predicate(val) ? acc + 1 : acc), 0)
+
 describe('iso3166_1', () => {
   let alpha2Codes: string[]
   let alpha3Codes: string[]
@@ -41,9 +44,9 @@ describe('iso3166_1', () => {
     expect(typeof name).toBe('string')
     expect(name).not.toBeEmpty()
     // should be unique
-    expect(alpha2Codes.filter((val) => val === alpha2)).toBeArrayOfSize(1)
-    expect(alpha3Codes.filter((val) => val === alpha3)).toBeArrayOfSize(1)
-    expect(numericCodes.filter((val) => val === numeric)).toBeArrayOfSize(1)
+    expect(arrayCount(alpha2Codes, (val) => val === alpha2)).toBe(1)
+    expect(arrayCount(alpha3Codes, (val) => val === alpha3)).toBe(1)
+    expect(arrayCount(numericCodes, (val) => val === numeric)).toBe(1)
   })
 })
 
@@ -65,7 +68,7 @@ describe('iso3166_1Reserved', () => {
     expect(typeof name).toBe('string')
     expect(name).not.toBeEmpty()
     // should be unique
-    expect(alpha2Codes.filter((val) => val === alpha2)).toBeArrayOfSize(1)
+    expect(arrayCount(alpha2Codes, (val) => val === alpha2)).toBe(1)
   })
 })
 
@@ -83,7 +86,7 @@ describe('iso3166_2', () => {
   each(iso3166_2).it('$code', ({ code, name, parent }: Iso3166_2) => {
     expect(code).toMatch(iso3166_2Regex)
     // should be unique
-    expect(iso3166_2Codes.filter((val) => val === code)).toBeArrayOfSize(1)
+    expect(arrayCount(iso3166_2Codes, (val) => val === code)).toBe(1)
     expect(name).not.toBeEmpty()
     expect(parent).toMatch(iso3166_2OrAlpha2Regex)
     expect(both1And2Codes).toContain(parent)
@@ -101,7 +104,7 @@ describe('iso3166_3', () => {
     expect(type).toBeOneOf(['merge', 'change', 'split'])
     expect(alpha4).toMatch(alpha4Regex)
     // should be unique
-    expect(alpha4Codes.filter((code) => code === alpha4)).toBeArrayOfSize(1)
+    expect(arrayCount(alpha4Codes, (code) => code === alpha4)).toBe(1)
     expect(from.state).toBe('formerly-assigned')
     expect(from.alpha2).toMatch(alpha2Regex)
     expect(from.alpha3).toMatch(alpha3Regex)
